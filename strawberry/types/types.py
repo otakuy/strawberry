@@ -181,7 +181,9 @@ class TypeDefinition(StrawberryType):
 
             # Check if the expected type matches the type found on the type_map
             real_concrete_type = type(getattr(root, generic_field.name))
-            if real_concrete_type is not expected_concrete_type:
+            if isinstance(expected_concrete_type, EnumDefinition):
+                return expected_concrete_type.name == real_concrete_type.__name__
+            elif real_concrete_type is not expected_concrete_type:
                 return False
 
         # All field mappings succeeded. This is a match
